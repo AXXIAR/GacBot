@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  },
+  "name": "gacbot",
+  "version": "1.0.0",
+  "description": "Bot du serveur GAC Studios",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AXXIAR/GacBot.git"
+  },
+  "keywords": [
+    "gac"
+  ],
+  "author": "Axxiar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AXXIAR/GacBot/issues"
+  },
+  "homepage": "https://github.com/AXXIAR/GacBot#readme"
+}

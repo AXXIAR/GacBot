@@ -25,8 +25,8 @@ if (message.author.bot) return;
             .setTimestamp()
         await message.channel.send({embed}).then(async embedMsg =>{
             await embedMsg.react('⬆️');
-            config.idea_embeds = embedMsg.id;
-            fs.writeFileSync('./config.json', JSON.stringify(config))
+            config.idea_embeds[embedMsg.id] = 0;
+            fs.writeFileSync('./config.json', JSON.stringify(config));
         })
         message.delete()
     }

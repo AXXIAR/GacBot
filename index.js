@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const bot =  new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const config = require('./config.json');
 const fs = require('fs');
+const { PassThrough } = require('stream');
 const activities_list = [
     "Administrer le serveur",
     "essaye /info",
@@ -9,7 +10,6 @@ const activities_list = [
     "être programmé",
     "GacBot | v0.1"
 ];
-var compte = 0;
 
 bot.commands = new Discord.Collection();
    fs.readdir("./commands/", (err, files) => {
@@ -24,7 +24,7 @@ bot.commands = new Discord.Collection();
 
     jsfile.forEach((f, i) => {
         let props = require(`./commands/${f}`);
-        console.log(`${f} chargé!`);
+        console.log(`[- ${f} -] chargé!`);
         bot.commands.set(props.help.name, props);
     });
 
@@ -34,7 +34,7 @@ bot.on("ready", async () => {
     console.log(bot.user.username+" est connecté")
     setInterval(() => {
         const index = Math.floor(Math.random() * (activities_list.length - 1) + 1);
-        bot.user.setActivity(activities_list[index], {type:"STREAMING"});
+        bot.user.setActivity(activities_list[index], {type:"WATCHING"});
     }, 10000);
 })
 
@@ -51,6 +51,9 @@ bot.on("message", async message => {
 })
 
 bot.on("messageReactionAdd", async (reaction, user) => {
+    if (user.bot) {
+        return;
+    }
 	// When we receive a reaction we check if the reaction is partial or not
 	if (reaction.partial) {
 		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
@@ -61,22 +64,40 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 			// Return as `reaction.message.author` may be undefined/null
 			return;
 		}
-	}
-    if (!config.idea_embeds) {return console.log('pas de messages en stock');}
-
-    
-    for(var i=0; i<config.idea_embeds.length; i++){
-        if(config.idea_embeds[i] == reaction.message.id){
-            compte += 1
-            const embed = new Discord.MessageEmbed()
-                .addField("Pour :", `${compte}`)
+	}   
+    for (x in config.idea_embeds) {
+        if (x == reaction.message.id) {
+            config.idea_embeds[reaction.message.id] ++
+            const receivedEmbed = reaction.message.embeds[0];
+            const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
             reaction.message.edit(embed)
-            break;
         }
-     }
-	//console.log(`${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`);
-	// The reaction is now also fully available and the properties will be reflected accurately:
-	//console.log(`${reaction.count} user(s) have given the same reaction to this message!`);
+    }
+});
+
+bot.on("messageReactionRemove", async (reaction, user) => {
+    if (user.bot) {
+        return;
+    }
+	// When we receive a reaction we check if the reaction is partial or not
+	if (reaction.partial) {
+		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message: ', error);
+			// Return as `reaction.message.author` may be undefined/null
+			return;
+		}
+	}   
+    for (x in config.idea_embeds) {
+        if (x == reaction.message.id) {
+            config.idea_embeds[reaction.message.id] --
+            const receivedEmbed = reaction.message.embeds[0];
+            const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
+            reaction.message.edit(embed)
+        }
+    }
 });
 
 bot.login(config.token);

@@ -67,10 +67,19 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 	}   
     for (x in config.idea_embeds) {
         if (x == reaction.message.id) {
-            config.idea_embeds[reaction.message.id] ++
-            const receivedEmbed = reaction.message.embeds[0];
-            const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
-            reaction.message.edit(embed)
+            if (reaction.emoji.name === '❌'){
+                reaction.message.delete()
+                delete config.idea_embeds[reaction.message.id]
+                fs.writeFileSync('./config.json', JSON.stringify(config));
+            }
+
+            if (reaction.emoji.name === '⬆️'){
+                config.idea_embeds[reaction.message.id] ++
+                fs.writeFileSync('./config.json', JSON.stringify(config));
+                const receivedEmbed = reaction.message.embeds[0];
+                const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
+                reaction.message.edit(embed)
+            }
         }
     }
 });
@@ -91,8 +100,9 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 		}
 	}   
     for (x in config.idea_embeds) {
-        if (x == reaction.message.id) {
+        if (reaction.emoji.name === '⬆️') {
             config.idea_embeds[reaction.message.id] --
+            fs.writeFileSync('./config.json', JSON.stringify(config));
             const receivedEmbed = reaction.message.embeds[0];
             const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
             reaction.message.edit(embed)

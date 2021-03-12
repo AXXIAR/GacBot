@@ -30,5 +30,5 @@ if (message.author.bot) return;
 }
 
 module.exports.help = {
-    name:"idea"
+    name:"idee"
 }

@@ -16,7 +16,7 @@ const activities_list = [
     "essaye $info",
     "essaye $projet",
     "être programmé",
-    "GacBot | v0.3"
+    "GacBot | v0.4"
 ];
 const connected_list = [
     "Je suis connecté :)",

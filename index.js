@@ -105,7 +105,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
                 config.idea_embeds[reaction.message.id] ++
                 fs.writeFileSync('./config.json', JSON.stringify(config));
                 const receivedEmbed = reaction.message.embeds[0];
-                const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
+                const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);
                 reaction.message.edit(embed)
             }
         }

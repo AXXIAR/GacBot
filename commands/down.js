@@ -17,6 +17,10 @@ var minute  = now.getMinutes();
 let debut = Date.now()
 
 module.exports.run = async (bot,message,args) => {
+    if (!message.member.hasPermission("ADMINISTRATOR")){
+        return;
+    }
+    
     message.delete()
     let fin = Date.now()
     let duree = fin - debut

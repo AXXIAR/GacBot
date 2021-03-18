@@ -1,3 +1,5 @@
+// message.channel.send(guild.member(sOwner) ? sOwner.toString() : guild.owner.user.tag);   
+
 var now = new Date();
 var annee   = now.getFullYear();
 var mois    = now.getMonth() + 1;
@@ -13,8 +15,8 @@ const fs = require('fs');
 const { PassThrough } = require('stream');
 const activities_list = [
     "Administrer le serveur",
-    "essaye $info",
-    "essaye $projet",
+    "$info",
+    "$projet",
     "être programmé",
     "GacBot | v0.4"
 ];
@@ -106,7 +108,8 @@ bot.on("messageReactionAdd", async (reaction, user) => {
                 fs.writeFileSync('./config.json', JSON.stringify(config));
                 const receivedEmbed = reaction.message.embeds[0];
                 const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);
-                reaction.message.edit(embed)
+                await reaction.message.edit(embed)
+                return;
             }
         }
     }
@@ -133,7 +136,8 @@ bot.on("messageReactionRemove", async (reaction, user) => {
             fs.writeFileSync('./config.json', JSON.stringify(config));
             const receivedEmbed = reaction.message.embeds[0];
             const embed = new Discord.MessageEmbed(receivedEmbed).setFooter(`Votes : ${config.idea_embeds[reaction.message.id]}`);   
-            reaction.message.edit(embed)
+            await reaction.message.edit(embed)
+            return;
         }
     }
 });

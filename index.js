@@ -13,6 +13,7 @@ const bot =  new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }
 const config = require('./config.json');
 const fs = require('fs');
 const { PassThrough } = require('stream');
+const prefix = config.prefix;
 const activities_list = [
     "Administrer le serveur",
     "$info",
@@ -51,7 +52,6 @@ bot.commands = new Discord.Collection();
 });
 
 bot.on("ready", async () => {
-    
     console.log(bot.user.username+" est connecté")
     setInterval(() => {
         let index = Math.floor(Math.random() * (activities_list.length - 1) + 1);
@@ -70,11 +70,10 @@ bot.on("ready", async () => {
 
 bot.on("message", async message => {
     if (message.author.bot) return;
-    
+    if (!message.content.startsWith(prefix)) return;
     let content = message.content.split(" ");
     let command = content[0];
     let args = content.slice(1);
-    let prefix = config.prefix;
 
     let commandfile = bot.commands.get(command.slice(prefix.length));
     if (commandfile) commandfile.run(bot, message, args);

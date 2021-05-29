@@ -10,7 +10,7 @@ if (message.author.bot) return;
     }
 
 
-    const filter = m => m.author.id ===  message.author.id;
+    const filter = m => m.author.id === message.author.id;
     await message.delete()
     if (!args[0]){
         message.channel.send("Sur quoi porte ton idée (nom du jeu, méchaniques, ...) ?")

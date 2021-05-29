@@ -11,6 +11,9 @@ var minute  = now.getMinutes();
 const Discord = require('discord.js');
 const bot =  new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const config = require('./config.json');
+require('dotenv').config();
+if (!process.env.BOT_TOKEN) {return console.log("Il me manque le token du bot")}
+
 const fs = require('fs');
 const { PassThrough } = require('stream');
 const prefix = config.prefix;
@@ -141,4 +144,4 @@ bot.on("messageReactionRemove", async (reaction, user) => {
     }
 });
 
-bot.login(config.token);
+bot.login(process.env.BOT_TOKEN);

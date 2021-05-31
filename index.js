@@ -101,6 +101,7 @@ bot.on('clickButton', async (button) => {
             .addField("Pour les participants d'un ou plusieurs projets :","\`\`\`\n-------------------------------------------------------------\n$idee (ton_idée) :  créer de manière interactive un embed contenant votre idée et avec un système de vote par réaction\n\n  - si vous ajoutez votre idée juste après la commande, le bot vous demandera juste quelle type d'idée c'est.\n\n  - si vous ne mettez rien, il vous demandera quelle type d'idée c'est, puis votre idée\n-------------------------------------------------------------\`\`\`");
         await button.defer();
         await button.message.edit({button:btn,embed:embed});
+        console.log(button.webhook)
     }
 
     if (button.id == "nextCmd1") {

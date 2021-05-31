@@ -5,22 +5,23 @@ module.exports.run = async (bot,message,args) => {
     if(!guild.available) return; // Stops if unavailable
     await message.guild.members.fetch(message.guild.ownerID)
     
-    let onlines = message.guild.members.cache.filter(({presence}) => presence.status != "offline").size;
+    let onlines = message.guild.members.cache.filter(member => member.presence.status == "offline").size;
     let bots = message.guild.members.cache.filter(member => member.user.bot).size;
     let total = message.guild.memberCount;
-    let createdAt = message.guild.createdAt;
+    onlines = total - onlines;
+    let createdAt = message.guild.createdAt.toString().slice(0,21)
     let owner = guild.owner.user.tag;
 
     
     const embed = new Discord.MessageEmbed()
-        .setTitle("Stats Serveur :")
+        .setTitle("Stats Serveur")
         .setColor("#F8E71C")
-        .addField("Owner :", owner, true)
-        .addField("Date de création :", createdAt, true)
+        .addField("Propriétaire", owner, true)
+        .addField("Date de création", createdAt, true)
         .addField("\u200b", "\u200b" , true)
-        .addField("Membres total :", total, true)
-        .addField("Bots :", bots, true)
-        .addField("Membres connectés :", onlines, true)
+        .addField("Total des membres", total, true)
+        .addField("Nombre de Bots", bots, true)
+        .addField("Membres connectés", onlines, true)
         .setTimestamp();
     message.delete()
     message.channel.send(embed);

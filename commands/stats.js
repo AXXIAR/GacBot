@@ -13,7 +13,7 @@ module.exports.run = async (bot,message,args) => {
 
     
     const embed = new Discord.MessageEmbed()
-        .setTitle("Infos Serveur :")
+        .setTitle("Stats Serveur :")
         .setColor("#F8E71C")
         .addField("Owner :", owner, true)
         .addField("Date de création :", createdAt, true)
@@ -27,5 +27,6 @@ module.exports.run = async (bot,message,args) => {
 }
 
 module.exports.help = {
-    name:'stats'
+    name:'stats',
+    aliases:["stat","server","serveur"]
 }

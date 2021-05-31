@@ -17,12 +17,13 @@ module.exports.run = async (bot,message,args) => {
         .addField("'$info'","Quelques infos pratiques sur moi", inline=true)
         .addField("'$projet'","Liste de tous les projets finis ou en cours", inline=true)
         .addField("\u200b","\u200b")
-        .addField("À venir :", "- *'$commandes'* (lise complète des commandes)\n- *'$clear [nombre]'* (nettoyer [nombre] de messages dans un salon)\n- Hébérgement en ligne du bot")
+        .addField("À venir :", "✅ *'$commande'* (lise complète des commandes)\n✅ *'$clear [nombre]'* (nettoyer [nombre] de messages dans un salon)\n✅ Hébérgement en ligne du bot")
         .setTimestamp();
     message.channel.send(embed)
     message.channel.send(embed2)
 }
 
 module.exports.help = {
-    name:"info"
+    name:"help",
+    aliases:["info","infos"]
 }

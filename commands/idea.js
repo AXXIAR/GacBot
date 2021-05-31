@@ -80,5 +80,6 @@ if (message.author.bot) return;
 }
 
 module.exports.help = {
-    name:"idee"
+    name:"idee",
+    aliases:["idea","idees","ideas"]
 }

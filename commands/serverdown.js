@@ -13,5 +13,6 @@ module.exports.run = async(bot,message,args) => {
     bot.channels.cache.get('828302257694048297').send(newEmbed)
 }
 module.exports.help ={
-    name:"serverdown"
+    name:"serverdown",
+    aliases:["sd"]
 }

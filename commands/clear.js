@@ -30,22 +30,31 @@ module.exports.run = async(bot,message,args) => {
 
     if (args[0] === "all") {
         await message.delete()
-        message.channel.bulkDelete(99)
-        return message.channel.send("J'ai bien supprimé : `99 messages`").then( msg => {
-            msg.delete({timeout:2000});})
+        try {
+            message.channel.bulkDelete(99)
+            return await message.channel.send("J'ai bien supprimé : `99 messages`").then( msg => {
+                msg.delete({timeout:2000});})
+        } catch (err) {
+            return await message.channel.send(":x: Je ne peux pas supprimer les messages de plus de 14 jours");
+        }
+        
     }
 
     else {
         await message.delete()
-        message.channel.bulkDelete(args[0])
-        return message.channel.send(`J'ai bien supprimé : \`${args[0]} messages\``).then( msg => {
-            msg.delete({timeout:2000});})
+        try {
+            message.channel.bulkDelete(args[0])
+            return await message.channel.send(`J'ai bien supprimé : \`${args[0]} messages\``).then( msg => {
+                msg.delete({timeout:2000});})
+        } catch (err) {
+            return await message.channel.send(":x: Je ne peux pas supprimer les messages de plus de 14 jours");
         }
-
+    }
 }
 
 
 
 module.exports.help = {
-    name:"clear"
+    name:"clear",
+    aliases:["delete"]
 }
